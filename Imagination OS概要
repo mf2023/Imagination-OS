@@ -1,2 +1,3 @@
-Imagination OS本制作成一个与x86兼容，多线程的操作系统（好像不准备用Linux，看情况）但由于能力有限，目前只能做成这样。采用Python3.8制作。希望能得到帮助，谢谢！
+Imagination OS本制作成一个与x86兼容，多线程的操作系统（好像不准备用Linux，看情况）但由于能力有限，目前只能做成这样。
+由于本人只有Python基础，所以放弃，目前打算制作一个可以调用Windows，Linux，MaxOS系统命令的工具，采用Python3.8制作。希望能得到帮助，谢谢！
                                             Imagination OS © 2022
