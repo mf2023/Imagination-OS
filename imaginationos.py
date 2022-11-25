@@ -47,10 +47,6 @@ def help():
     tb = pt.PrettyTable()
     tb.field_names = ["指令名称", "描述", "大小写", "其他"]
     tb.add_row(["help", "获取帮助", "不区分", ""])
-    tb.add_row(["Brifasdfae", 5905, 1857594, 1146.4])
-    tb.add_row(["Darwin", 112, 120900, 171423423423423424.7])
-    tb.add_row(["Hobart", 1357, 205556, 619.5])
-
     print(tb)
     os1()
 
@@ -702,7 +698,7 @@ def pinfo1():
             print(pinfo)
 # ______________________________________________分界线____________________________________________
 
-print("MF Imagination OS [版本 2.0.22623.891]")
+print("MF Imagination OS [版本 0.0.22623.891]")
 print("(c) MF Corporation。保留所有权利。")
 print("请输入您的密码以登录您的计算机")
 yh()
