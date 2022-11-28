@@ -4,12 +4,10 @@ import platform
 import wmi
 import os
 
+
 # __________________________________________初始----------------------
-
-
-# noinspection PyTypeChecker
 def os1():
-    osw = input('PS C:\imagination\MF-Windows11>')
+    osw = input("PS C:\imagination\MF-Windows11>")
     if osw == "Disk Information" or osw == "disk information":
         cp()
     elif osw == "Disk Usage" or osw == "disk usage":
@@ -33,25 +31,39 @@ def os1():
         hjbl()
     elif osw == "modify system environment variables" or osw == "Modify system environment variables":
         xghjbl()
+    elif osw == "file information" or osw == "File Information":
+        fileinformation()
+    elif osw == "Network packet loss rate" or osw == "network packet loss rate":
+        Networkpacketlossrate()
+    elif osw == "gets the system process" or osw == "Gets the system process":
+        pinfo1()
+    elif osw == "Empty Trash" or osw == "empty trash":
+        emptytrash()
     else:
         print(
             "无法将" "'" + osw + "'""项识别为 cmdlet、函数、脚本文件或可运行程序的名称。请检查名称的拼写，如果包括路径，请确保路径正确，然后再试一次。")
         os1()
 
 
-#——————————————————————————————————————————————————————————————————————————
+# —————————————————————————————帮助—————————————————————————————————————————————
 def help():
     import prettytable as pt
     print("感谢您使用盲飞Imagination OS，您可以从这里获取帮助。详情www.mfchina.com.cn/imaginationos.感谢您对理解！")
 
     tb = pt.PrettyTable()
     tb.field_names = ["指令名称", "描述", "大小写", "其他"]
-    tb.add_row(["help", "获取帮助", "不区分", ""])
+    tb.add_row(["help", "获取帮助", "不区分（h大写）", "无"])
+    tb.add_row(["system", "获取系统信息", "不区分（s大写）", "无"])
+    tb.add_row(["information about pc", "获取系统信息", "不区分（i，a，pc大写）", "无"])
+    tb.add_row(["mac", "获取Mac信息", "不区分（m大写）", "无"])
+    tb.add_row(["network", "获取网络信息", "不区分（n大写）", "无"])
+    tb.add_row(["network packet loss rate", "获取网络丢包率", "不区分（n大写）", "无"])
+
     print(tb)
     os1()
 
 
-#——————————————————————————————环境变量——————————————————————————————————————
+# ——————————————————————————————环境变量——————————————————————————————————————
 def hjbl():
     import os
     print(os.environ["TEMP"])
@@ -70,8 +82,10 @@ def hjbl():
 
     os1()
 
+
 def xghjbl():
     print("Modify system environment variables (operation is irreversible, please use with caution)")
+
     class MyEnv:
         def __init__(self):
             self.envFile = "c:\\myenv.txt"
@@ -125,16 +139,39 @@ def xghjbl():
 def yh():
     num = 0
     while True:
-        mi = input("密码（请输入有效值）：")
-        if mi == "wei20090314":
+        mi = input('密码（请输入有效值）：')
+        if mi == "vDW6HNWiSt7Ok3yc" or mi == "Tc5mgxwfzgbGVm53" or mi == "U9fEif4WCb7tsGhS":
             print("欢迎！")
             os1()
         else:
             num += 1
             if num == 3:
-                print("3次用户名或者密码均有误！退出程序。")
+                print("3次密码均有误！退出程序。")
                 break
+
+
 # ————————————————————————————————————————————————————文件——————————————————————————————
+def fileinformation():
+    xx = input("PC C:\imagination\MF-Windows11\FileInformation>")
+    import os
+
+    def formatTime(atime):
+        import time
+        return time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(atime))
+
+    fileinfo = os.stat(xx)
+    print("最后一次访问时间:", formatTime(fileinfo.st_atime))
+    print("最后一次修改时间:", formatTime(fileinfo.st_mtime))
+    print("最后一次状态变化的时间：", formatTime(fileinfo.st_ctime))
+    print("索引号：", fileinfo.st_ino)
+    print("被连接数目：", fileinfo.st_dev)
+    print("文件大小:", fileinfo.st_size, "字节")
+    print("最后一次访问时间:", fileinfo.st_atime)
+    print("最后一次修改时间:", fileinfo.st_mtime)
+    print("最后一次状态变化的时间：", fileinfo.st_ctime)
+    os1()
+
+
 def filetree():
     """
 
@@ -157,12 +194,12 @@ def createanewfile():
     """
     new = input("PC C:\imagination\MF-Windows11\Fe-tree>")
 
+    # noinspection PyTypeChecker
     def mkdir(path):
         """
 
         :type path: object
         """
-        # noinspection PyTypeChecker
         folder = os.path.exists(path)
         if not folder:  # 判断是否存在文件夹如果不存在则创建为文件夹
             os.makedirs(path)
@@ -176,11 +213,8 @@ def createanewfile():
     os1()
 
 
-# noinspection PyTypeChecker
-def copyfile() -> object:
-    # noinspection PyCompatibility
+def copyfile():
     news: str = input("PC C:\imagination\MF-Windows11\Copy flies\Original position>")
-    # noinspection PyCompatibility
     newe: str = input("PC C:\imagination\MF-Windows11\Copy flies\Copy to>")
     import shutil
     shutil.copyfile(newe, news)
@@ -195,15 +229,25 @@ def Writefilecontents():
         file_object.write(filenr)
 
 
+def emptytrash():
+    y = input("Warning: The operation is irreversible. Continue? (y/n):")
+    if y == "y" or y == "Y":
+        import winshell
+        winshell.recycle_bin().empty(confirm=False, show_progress=False, sound=False)  # 清空回收站
+        os1()
+    elif y == "n" or y == "N":
+        os1()
+    else:
+        os1()
+
+
 # ——————————————————————————————————————————————————————硬盘—————————————————————————————————
 def cp():
     d = psutil.disk_partitions()
     print('C盘信息:', d[0])
     print('D盘信息:', d[1])
     print('E盘信息:', d[2])
-    print("F盘信息:", d[3])
-    print('G盘信息:', d[4])
-    print('获取磁盘字段:', d[0][0], d[1][0], d[2][0], d[3][0], d[4][0])
+    print('获取磁盘字段:', d[0][0], d[1][0], d[2][0])
     print('数据类型:', type(d), '\n')
     os1()
 
@@ -233,7 +277,7 @@ def diskusage():
         try:
             partition_usage = psutil.disk_usage(partition.mountpoint)
         except PermissionError:
-            # this can be catched due to the disk that
+            # this can be cached due to the disk that
             # isn't ready
             continue
         print(f"  Total Size: {get_size(partition_usage.total)}")
@@ -241,6 +285,8 @@ def diskusage():
         print(f"  Free: {get_size(partition_usage.free)}")
         print(f"  Percentage: {partition_usage.percent}%")
     os1()
+
+
 # ——————————————————————————————CPU及其他————————————————————————————————
 def mac():
     import socket
@@ -253,8 +299,8 @@ def mac():
     # 获取Mac地址
     def get_mac_address():
         # noinspection PyCompatibility
-        mac: str = uuid.UUID(int=uuid.getnode()).hex[-12:]
-        return ":".join([mac[e:e + 2] for e in range(0, 11, 2)])
+        mac1: str = uuid.UUID(int=uuid.getnode()).hex[-12:]
+        return ":".join([mac1[e:e + 2] for e in range(0, 11, 2)])
 
     # ipList = socket.gethostbyname_ex(hostname)
     # print(ipList)
@@ -448,8 +494,8 @@ def cpu():
         os.system("cls")
 
     def get_mac_address():
-        mac = uuid.UUID(int=uuid.getnode()).hex[-12:]
-        return ":".join([mac[e:e + 2] for e in range(0, 11, 2)])
+        mac1 = uuid.UUID(int=uuid.getnode()).hex[-12:]
+        return ":".join([mac1[e:e + 2] for e in range(0, 11, 2)])
 
     if __name__ == '__main__':
         start(5)
@@ -504,7 +550,7 @@ def cpu1(gpu_free_memory=None):
                 return f'{bytes:.2f}{unit}{suffix}'
             bytes /= factor
 
-    def get_size(bytes, suffix="B"):
+    def get_size1(bytes, suffix="B"):
         """
         Scale bytes to its proper format
         e.g:
@@ -535,6 +581,7 @@ def cpu1(gpu_free_memory=None):
     print(f"Current Frequency: {cpufreq.current:.2f}Mhz")
     # CPU usage
     print("CPU Usage Per Core:")
+    # noinspection PyTypeChecker
     for i, percentage in enumerate(psutil.cpu_percent(percpu=True, interval=1)):
         print(f"Core {i}: {percentage}%")
     print(f"Total CPU Usage: {psutil.cpu_percent()}%")
@@ -543,16 +590,16 @@ def cpu1(gpu_free_memory=None):
     print("=" * 40, "Memory Information", "=" * 40)
     # get the memory details
     svmem = psutil.virtual_memory()
-    print(f"Total: {get_size(svmem.total)}")
-    print(f"Available: {get_size(svmem.available)}")
-    print(f"Used: {get_size(svmem.used)}")
+    print(f"Total: {get_size1(svmem.total)}")
+    print(f"Available: {get_size1(svmem.available)}")
+    print(f"Used: {get_size1(svmem.used)}")
     print(f"Percentage: {svmem.percent}%")
     print("=" * 20, "SWAP", "=" * 20)
     # get the swap memory details (if exists)
     swap = psutil.swap_memory()
-    print(f"Total: {get_size(swap.total)}")
-    print(f"Free: {get_size(swap.free)}")
-    print(f"Used: {get_size(swap.used)}")
+    print(f"Total: {get_size1(swap.total)}")
+    print(f"Free: {get_size1(swap.free)}")
+    print(f"Used: {get_size1(swap.used)}")
     print(f"Percentage: {swap.percent}%")
 
     # Disk Information
@@ -567,17 +614,17 @@ def cpu1(gpu_free_memory=None):
         try:
             partition_usage = psutil.disk_usage(partition.mountpoint)
         except PermissionError:
-            # this can be catched due to the disk that
+            # this can be cached due to the disk that
             # isn't ready
             continue
-        print(f"  Total Size: {get_size(partition_usage.total)}")
-        print(f"  Used: {get_size(partition_usage.used)}")
-        print(f"  Free: {get_size(partition_usage.free)}")
+        print(f"  Total Size: {get_size1(partition_usage.total)}")
+        print(f"  Used: {get_size1(partition_usage.used)}")
+        print(f"  Free: {get_size1(partition_usage.free)}")
         print(f"  Percentage: {partition_usage.percent}%")
     # get IO statistics since boot
     disk_io = psutil.disk_io_counters()
-    print(f"Total read: {get_size(disk_io.read_bytes)}")
-    print(f"Total write: {get_size(disk_io.write_bytes)}")
+    print(f"Total read: {get_size1(disk_io.read_bytes)}")
+    print(f"Total write: {get_size1(disk_io.write_bytes)}")
 
     # Network information
     print("=" * 40, "Network Information", "=" * 40)
@@ -596,8 +643,8 @@ def cpu1(gpu_free_memory=None):
                 print(f"  Broadcast MAC: {address.broadcast}")
     # get IO statistics since boot
     net_io = psutil.net_io_counters()
-    print(f"Total Bytes Sent: {get_size(net_io.bytes_sent)}")
-    print(f"Total Bytes Received: {get_size(net_io.bytes_recv)}")
+    print(f"Total Bytes Sent: {get_size1(net_io.bytes_sent)}")
+    print(f"Total Bytes Received: {get_size1(net_io.bytes_recv)}")
 
     import GPUtil
     from tabulate import tabulate
@@ -647,6 +694,66 @@ def GetNetWork():
     os1()
 
 
+def Networkpacketlossrate():
+    import os
+    from glob import glob
+    import subprocess as sp
+
+    class PowerShell:
+        # from scapy
+        def __init__(self, coding, ):
+            cmd = [self._where('PowerShell.exe'),
+                   "-NoLogo", "-NonInteractive",  # Do not print headers
+                   "-Command", "-"]  # Listen commands from stdin
+            startupinfo = sp.STARTUPINFO()
+            startupinfo.dwFlags |= sp.STARTF_USESHOWWINDOW
+            self.popen = sp.Popen(cmd, stdout=sp.PIPE, stdin=sp.PIPE, stderr=sp.STDOUT, startupinfo=startupinfo)
+            self.coding = coding
+
+        def __enter__(self):
+            return self
+
+        def __exit__(self, a, b, c):
+            self.popen.kill()
+
+        def run(self, cmd, timeout=15):
+            b_cmd = cmd.encode(encoding=self.coding)
+            try:
+                b_outs, errs = self.popen.communicate(b_cmd, timeout=timeout)
+            except sp.TimeoutExpired:
+                self.popen.kill()
+                b_outs, errs = self.popen.communicate()
+            outs = b_outs.decode(encoding=self.coding)
+            return outs, errs
+
+        @staticmethod
+        def _where(filename, dirs=None, env="PATH"):
+            """Find file in current dir, in deep_lookup cache or in system path"""
+            if dirs is None:
+                dirs = []
+            if not isinstance(dirs, list):
+                dirs = [dirs]
+            if glob(filename):
+                return filename
+            paths = [os.curdir] + os.environ[env].split(os.path.pathsep) + dirs
+            try:
+                return next(os.path.normpath(match)
+                            for path in paths
+                            for match in glob(os.path.join(path, filename))
+                            if match)
+            except (StopIteration, RuntimeError):
+                raise IOError("File not found: %s" % filename)
+
+    if __name__ == '__main__':
+        # Example:
+        with PowerShell('GBK') as ps:
+            outs, errs = ps.run('ping baidu.com')
+        print('error:', os.linesep, errs)
+        print('output:', os.linesep, outs)
+
+    os1()
+
+
 def system1():
     # 系统的内存利用率
     free = str(round(psutil.virtual_memory().free / (1024.0 * 1024.0 * 1024.0), 2)) + 'GB'
@@ -685,7 +792,8 @@ def computer():
     for system in aa.Win32_ComputerSystem():
         system.Rename(computername)  # 这里就是修改的名字
 
-#————————————————————————————————————————————————进程——————————————————————————————————
+
+# ————————————————————————————————————————————————进程——————————————————————————————————
 def pinfo1():
     import psutil
 
@@ -696,9 +804,41 @@ def pinfo1():
             pass
         else:
             print(pinfo)
+    os1()
+
+
+def kill():
+    idd = input("PS C:\imagination\MF-Windows11\Please enter the pid of the process>")
+    os.system('taskkill /f /pid %s' % idd)
+    os1()
+
+
+# ——————————————————————————————————————————————安全中心-----------------------------------
+def SecurityCenter():
+    import os
+    bdk = ['病毒.txt''bd.py']
+
+    def getAllFile(path):
+        # 获取目录中的所有文件并遍历
+        files = os.listdir(path)
+        for file in files:
+            # 拼接路径，如果是目录则递归获取所有文件
+            new_path = path + r'/' + file
+            if os.path.isdir(new_path):
+                getAllFile(new_path)
+            else:
+                # 如果是文件则查询病毒库，匹配成功则删除
+                if file in bdk:
+                    os.remove(new_path)
+                    print('已经删除病毒文件', file)
+
+    path = input('请输入需要查杀的目录：')
+    getAllFile(path)
+
+
 # ______________________________________________分界线____________________________________________
 
-print("MF Imagination OS [版本 0.0.22623.891]")
+print("MF Imagination OS [版本0.22623.891]")
 print("(c) MF Corporation。保留所有权利。")
 print("请输入您的密码以登录您的计算机")
 yh()
